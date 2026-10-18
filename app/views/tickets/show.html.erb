@@ -1,0 +1,24 @@
+<%= link_to "← Tüm talepler", root_path, class: "back-link" %>
+<div class="page-heading"><div><p class="eyebrow">TALEP #<%= @ticket.id %> · <%= @ticket.brand.name %></p><h1><%= @ticket.subject %></h1><p class="muted"><%= @ticket.customer_name %> · <%= @ticket.customer_email %></p></div><span class="badge <%= @ticket.status %>"><%= status_label(@ticket.status) %></span></div>
+<%= render "tickets/errors", record: @ticket %>
+<div class="detail-grid">
+  <section>
+    <article class="panel padded"><div class="panel-heading"><h2>Müşteri talebi</h2><time><%= l @ticket.created_at, format: :short %></time></div><div class="prose"><%= simple_format @ticket.description %></div></article>
+    <h2 class="section-title">Yanıtlar</h2>
+    <% @ticket.ticket_responses.order(:created_at, :id).each do |response| %>
+      <article class="panel padded response"><div class="panel-heading"><strong><%= response.author_type == "staff" ? "Personel" : "Müşteri" %></strong><time><%= l response.created_at, format: :short %></time></div><div class="prose"><%= simple_format response.body %></div></article>
+    <% end %>
+    <section class="panel padded"><h2>Yanıt ekle</h2><%= render "tickets/errors", record: @response %>
+      <% if @ticket.status == "open" %>
+        <%= form_with model: [@ticket, @response] do |f| %><%= f.label :author_type, "Yanıt sahibi" %><%= f.select :author_type, [["Personel", "staff"], ["Müşteri", "customer"]] %><%= f.label :body, "Yanıt" %><%= f.text_area :body, rows: 5, required: true %><%= f.submit "Yanıtı gönder", class: "button" %><% end %>
+      <% else %><p class="muted">Yanıt eklemek için talep açık durumda olmalıdır.</p><% end %>
+    </section>
+  </section>
+  <aside>
+    <section class="panel padded sla-panel"><p class="eyebrow">İLK YANIT SLA</p><h2 class="<%= 'danger' if @ticket.sla.breached? %>"><%= sla_label(@ticket) %></h2><p>Hedef: <%= l @ticket.sla.deadline, format: :short %></p><p class="muted">Ortak hedef: 60 dakika. Geç yanıt SLA ihlalini kaldırmaz.</p><% if @ticket.first_response_at %><p>İlk personel yanıtı: <%= l @ticket.first_response_at, format: :short %></p><% end %></section>
+    <section class="panel padded"><h2>Talep yönetimi</h2><p class="muted">Öncelik: <%= priority_label(@ticket.priority) %></p>
+      <%= form_with model: @ticket do |f| %><%= f.label :agent_id, "Atanan ajan" %><%= f.collection_select :agent_id, @agents, :id, :name, include_blank: "Atanmadı" %><%= f.submit "Atamayı kaydet", class: "button secondary" %><% end %>
+      <% @ticket.available_statuses.each do |status| %><%= button_to(status == "open" ? "Talebi aç" : "Çözüldü olarak işaretle", ticket_path(@ticket), method: :patch, params: { ticket: { status: status } }, class: "button transition") %><% end %>
+    </section>
+  </aside>
+</div>

@@ -1,0 +1,12 @@
+<div class="page-heading"><div><p class="eyebrow">YENİ TALEP</p><h1>Nasıl yardımcı olabiliriz?</h1><p class="muted">Kayıt oluşturulduğunda 60 dakikalık ilk yanıt süresi başlar.</p></div></div>
+<section class="panel padded form-panel">
+  <%= render "errors", record: @ticket %>
+  <% if @brands.empty? %><p class="flash alert">Talep oluşturmadan önce <%= link_to "dashboard üzerinden marka ekleyin", root_path %>.</p><% end %>
+  <%= form_with model: @ticket do |f| %>
+    <div class="two-columns"><div><%= f.label :customer_name, "Müşteri adı" %><%= f.text_field :customer_name, required: true %></div><div><%= f.label :customer_email, "Müşteri e-postası" %><%= f.email_field :customer_email, required: true %></div></div>
+    <div class="two-columns"><div><%= f.label :brand_id, "Marka" %><%= f.collection_select :brand_id, @brands, :id, :name, { prompt: "Marka seçin" }, required: true %></div><div><%= f.label :priority, "Öncelik" %><%= f.select :priority, Ticket::PRIORITIES.map { |p| [priority_label(p), p] } %></div></div>
+    <%= f.label :subject, "Konu" %><%= f.text_field :subject, required: true %>
+    <%= f.label :description, "Talep açıklaması" %><%= f.text_area :description, rows: 6, required: true %>
+    <%= f.submit "Talebi oluştur", class: "button" %>
+  <% end %>
+</section>

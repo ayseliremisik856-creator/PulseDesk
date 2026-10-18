@@ -1,0 +1,29 @@
+<div class="page-heading"><div><p class="eyebrow">DESTEK MERKEZİ</p><h1>Ekibinizin nabzı.</h1><p class="muted">Talepleri yönetin, ilk yanıt hedefini takip edin.</p></div><%= link_to "Yeni talep oluştur", new_ticket_path, class: "button" %></div>
+<section class="metrics" aria-label="Dashboard">
+  <% [["Yeni talepler", @counts.fetch("new", 0)], ["Açık talepler", @counts.fetch("open", 0)], ["Çözülen", @counts.fetch("solved", 0)], ["Yanıtı geciken", @overdue_count]].each do |label, count| %>
+    <article class="metric"><span><%= label %></span><strong><%= count %></strong></article>
+  <% end %>
+</section>
+<section class="panel">
+  <div class="panel-heading"><h2>Tüm talepler</h2><span class="muted"><%= @tickets.size %> kayıt · İlk yanıt hedefi 60 dakika</span></div>
+  <% if @tickets.empty? %>
+    <div class="empty"><h3>Destek akışınız burada başlıyor.</h3><p>Önce aşağıdan bir marka ve ajan ekleyin, ardından ilk talebinizi oluşturun.</p></div>
+  <% else %>
+    <div class="table-wrap"><table><thead><tr><th>Talep / Müşteri</th><th>Marka</th><th>Durum</th><th>Öncelik</th><th>Ajan</th><th>İlk yanıt SLA</th></tr></thead><tbody>
+      <% @tickets.each do |ticket| %><tr>
+        <td><%= link_to "##{ticket.id} #{ticket.subject}", ticket, class: "ticket-link" %><small><%= ticket.customer_name %></small></td>
+        <td><%= ticket.brand.name %></td><td><span class="badge <%= ticket.status %>"><%= status_label(ticket.status) %></span></td>
+        <td><%= priority_label(ticket.priority) %></td><td><%= ticket.agent&.name || "Atanmadı" %></td>
+        <td class="<%= 'danger' if ticket.sla.breached? %>"><%= sla_label(ticket) %></td>
+      </tr><% end %>
+    </tbody></table></div>
+  <% end %>
+</section>
+<div class="two-columns setup">
+  <section class="panel padded"><h2>Markalar <span class="muted">(<%= @brands.size %>)</span></h2><p class="muted"><%= @brands.map(&:name).join(" · ").presence || "Henüz marka eklenmedi." %></p>
+    <%= form_with model: Brand.new do |f| %><%= f.label :name, "Marka adı" %><%= f.text_field :name, required: true %><%= f.submit "Marka ekle", class: "button secondary" %><% end %>
+  </section>
+  <section class="panel padded"><h2>Ajanlar <span class="muted">(<%= @agents.size %>)</span></h2><p class="muted"><%= @agents.map(&:name).join(" · ").presence || "Henüz ajan eklenmedi." %></p>
+    <%= form_with model: Agent.new do |f| %><div class="two-columns"><div><%= f.label :name, "Ad soyad" %><%= f.text_field :name, required: true %></div><div><%= f.label :email, "E-posta" %><%= f.email_field :email, required: true %></div></div><%= f.submit "Ajan ekle", class: "button secondary" %><% end %>
+  </section>
+</div>

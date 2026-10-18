@@ -1,0 +1,113 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Rails tests (SQLite)
+    runs-on: ubuntu-24.04
+    env:
+      RAILS_ENV: test
+      BUNDLE_FROZEN: "true"
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install image library used by Active Storage
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libvips-dev
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Migrate test database and run the complete test suite
+        run: |
+          bundle exec rails db:migrate
+          bundle exec rails test
+      - name: Check application loading
+        run: bundle exec rails zeitwerk:check
+
+  production:
+    name: Production build and PostgreSQL smoke (Linux)
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: pulsedesk
+          POSTGRES_PASSWORD: ci_only_not_a_secret
+          POSTGRES_DB: pulsedesk_ci
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U pulsedesk -d pulsedesk_ci"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      RAILS_ENV: production
+      DATABASE_URL: postgres://pulsedesk:ci_only_not_a_secret@127.0.0.1:5432/pulsedesk_ci
+      BUNDLE_WITHOUT: development:test
+      BUNDLE_FROZEN: "true"
+      RAILS_SERVE_STATIC_FILES: "true"
+      WEB_CONCURRENCY: "0"
+      RAILS_MAX_THREADS: "3"
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install image library used by Active Storage
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libvips-dev
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Generate temporary credentials only in the disposable CI checkout
+        run: |
+          bundle exec ruby -ractive_support/encrypted_file -rsecurerandom <<'RUBY'
+          File.write("config/master.key", SecureRandom.hex(16))
+          credentials = ActiveSupport::EncryptedFile.new(
+            content_path: "config/credentials.yml.enc",
+            key_path: "config/master.key",
+            env_key: "RAILS_MASTER_KEY",
+            raise_if_missing_key: true
+          )
+          credentials.write("secret_key_base: #{SecureRandom.hex(64)}\n")
+          RUBY
+      - name: Run the actual Render build script
+        run: |
+          export RAILS_MASTER_KEY="$(cat config/master.key)"
+          bash -n bin/render-build.sh
+          bash bin/render-build.sh
+      - name: Verify production adapters and PostgreSQL workflow
+        run: bundle exec rails runner script/production_smoke.rb
+      - name: Check production HTTP and compiled CSS
+        run: |
+          bundle exec puma -C config/puma.rb -b tcp://127.0.0.1:3000 > tmp/ci-puma.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:3000/up > /dev/null; then break; fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:3000/up > /dev/null
+          curl --fail --silent http://127.0.0.1:3000/ > tmp/ci-home.html
+          ruby -rnet/http <<'RUBY'
+          html = File.read("tmp/ci-home.html")
+          abort "Dashboard missing" unless html.include?("PulseDesk")
+          css = html[/href="([^"]+\.css)"/, 1]
+          abort "Compiled CSS link missing" unless css
+          response = Net::HTTP.get_response(URI.join("http://127.0.0.1:3000", css))
+          abort "Compiled CSS request failed" unless response.code == "200"
+          puts "Production GET /, GET /up and compiled CSS: 200"
+          RUBY
+      - name: Keep server diagnostics on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-server-log
+          path: tmp/ci-puma.log
+          if-no-files-found: ignore

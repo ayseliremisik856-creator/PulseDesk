@@ -1,0 +1,33 @@
+# Private credentials and local environment files (encrypted credentials are safe).
+/config/master.key
+/config/credentials/*.key
+.env
+.env.*
+!/.env.example
+*.pem
+*.p12
+
+# Local databases and SQLite journals.
+*.sqlite3
+*.sqlite3-*
+*.sqlite
+*.sqlite-*
+/db/*.db
+/storage/*
+!/storage/.keep
+
+# Generated output, local installs, logs and caches.
+/.bundle/
+/vendor/bundle/
+/log/*
+!/log/.keep
+/tmp/*
+!/tmp/.keep
+!/tmp/pids/
+/tmp/pids/*
+!/tmp/pids/.keep
+/public/assets/
+/coverage/
+/node_modules/
+.DS_Store
+Thumbs.db
