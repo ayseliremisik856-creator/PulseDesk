@@ -12,6 +12,9 @@ class Ticket < ApplicationRecord
   validates :priority, inclusion: { in: PRIORITIES }
   validates :status, inclusion: { in: STATUSES }
   validate :valid_status_transition
+  before_validation :snapshot_sla_target, on: :create
+  validates :sla_target_minutes, numericality: { only_integer: true, greater_than: 0, less_than_or_equal_to: 1440 }
+  validate :preserve_sla_target, on: :update
 
   def sla
     FirstResponseSla.new(self)
@@ -22,6 +25,14 @@ class Ticket < ApplicationRecord
   end
 
   private
+
+  def snapshot_sla_target
+    self.sla_target_minutes = brand&.first_response_minutes || FirstResponseSla::DEFAULT_TARGET_MINUTES
+  end
+
+  def preserve_sla_target
+    errors.add(:sla_target_minutes, "oluşturulduktan sonra değiştirilemez") if will_save_change_to_sla_target_minutes?
+  end
 
   def valid_status_transition
     if new_record?

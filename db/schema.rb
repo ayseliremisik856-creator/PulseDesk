@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_19_010000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_19_030000) do
   create_table "agents", force: :cascade do |t|
     t.string "name", null: false
     t.string "email", null: false
@@ -23,6 +23,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_19_010000) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sla_policy_id"
+    t.index ["sla_policy_id"], name: "index_brands_on_sla_policy_id"
+  end
+
+  create_table "sla_policies", force: :cascade do |t|
+    t.string "name", null: false
+    t.integer "first_response_minutes", default: 60, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.check_constraint "first_response_minutes BETWEEN 1 AND 1440", name: "sla_policy_target_range"
   end
 
   create_table "ticket_responses", force: :cascade do |t|
@@ -47,13 +57,16 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_19_010000) do
     t.datetime "first_response_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "sla_target_minutes", default: 60, null: false
     t.index ["agent_id"], name: "index_tickets_on_agent_id"
     t.index ["brand_id"], name: "index_tickets_on_brand_id"
     t.index ["status", "created_at"], name: "index_tickets_on_status_and_created_at"
     t.check_constraint "priority IN ('low', 'normal', 'high', 'urgent')", name: "ticket_priority"
+    t.check_constraint "sla_target_minutes BETWEEN 1 AND 1440", name: "ticket_sla_target_range"
     t.check_constraint "status IN ('new', 'open', 'solved')", name: "ticket_status"
   end
 
+  add_foreign_key "brands", "sla_policies"
   add_foreign_key "ticket_responses", "tickets"
   add_foreign_key "tickets", "agents"
   add_foreign_key "tickets", "brands"

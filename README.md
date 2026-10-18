@@ -1,116 +1,142 @@
-# PulseDesk
+# PulseDesk — Ödev 3: Fortune 500 SaaS aort dilimi
 
 [![CI](https://github.com/ayseliremisik856-creator/PulseDesk/actions/workflows/ci.yml/badge.svg)](https://github.com/ayseliremisik856-creator/PulseDesk/actions/workflows/ci.yml)
 
-Repository: https://github.com/ayseliremisik856-creator/PulseDesk
+- **Canlı:** https://pulsedesk-12n5.onrender.com
+- **GitHub:** https://github.com/ayseliremisik856-creator/PulseDesk
+- **Sağlık:** https://pulsedesk-12n5.onrender.com/up
+- **Ajan rehberi:** [AGENT.md](AGENT.md)
+- **Teslim:** 19 Ekim 2026 Pazartesi; ders saatinden önce Classroom'a canlı ve repo bağlantıları girilmeli. Classroom teslimi bu depodan yapılamaz.
 
-Rails 8.1.4 support workflow: brands, agents, tickets, replies and a 60-minute first-response SLA. Status flow is `new → open → solved`; a late reply never erases the SLA breach.
+Özgün ürün adı ve metin logosu PulseDesk'tir. İlham alınan kurumsal ürün Zendesk; onun adı/logosu uygulama ekranlarında kullanılmaz. Bu çalışma tam ürün klonu değil, çalışan bir müşteri destek aort dilimidir: **talep oluştur → ajan ata → aç → personel yanıtı → çöz**. Rails 8.1.4 / Ruby 4.0.7; yerelde/testte SQLite, Render'da PostgreSQL. Bireysel ödev, coding agent yardımıyla geliştirilmiştir; başka öğrenci katkısı iddia edilmez.
 
-## Local development (Windows)
+## Faz 1 — Kurumsal ölçek ve satın alma kanıtı
 
-Ruby 4.0.7 with RubyInstaller/MSYS2, Bundler 4.0.20 and Git. Development and test use SQLite; a local PostgreSQL server is not required.
+Araştırma tarihi: **19 Ekim 2026**. Fortune 500 ABD listesidir; Global 500 ile karıştırılmamıştır. Tarihli 2025 verileri tarihsel karşılaştırma olarak kullanılır, 2026 ölçümü gibi sunulmaz. Fortune listesi ciro sıralamasıdır, borsa büyüklüğü sıralaması değildir. [Fortune'un 2025 duyurusu](https://fortunemedia.mediaroom.com/2025-06-02-Fortune-Announces-2025-Fortune-500-List)
+
+| İstenen ölçü | Doğrulanan sayı / kapsam | Kaynak |
+| --- | --- | --- |
+| Çalışan aralığı, 2025 | A-Mark **486** — Walmart yaklaşık **2.100.000** | [Fortune, 2 Haziran 2025](https://fortune.com/2025/06/02/fortune-500-employees-headcount-workforce-largest-smallest/) |
+| Tüm Fortune 500'ün değerleme min–max aralığı | **Doğrulanamadı.** Eksiksiz, aynı tarihli değerleme verisi alınamadı; özel şirketlerin halka açık piyasa değeri yok. Örnek şirket aralığı gerçek minimum/maksimum olarak sunulmaz. | [Liste ve tam veri erişimi](https://fortune.com/ranking/fortune500/2025/) |
+| Piyasa değeri örneği — Stanley Black & Decker | **11,035 milyar USD**, 31 Mart 2026 | [Fortune şirket profili](https://fortune.com/company/stanley-black-decker/) |
+| Piyasa değeri örneği — Apple | **4,459835 trilyon USD**, 16 Ağustos 2026 | [Fortune şirket profili](https://fortune.com/company/apple/) |
+| Bir kuruluşun SaaS portföyü | Ortalama **275 uygulama**, 2025 raporunun örneklemi | [Zylo, 2025 bulguları](https://zylo.com/blog/prioritizing-saas-management-in-2025-focus-on-these-3-things) |
+| Yıllık SaaS harcaması | Ortalama **49 milyon USD/yıl**, aynı örneklem | [Zylo, 2025 bulguları](https://zylo.com/blog/prioritizing-saas-management-in-2025-focus-on-these-3-things) |
+
+Çalışan alt sınırı, Fortune'un en düşük çalışanlı şirketleri sıraladığı listedeki minimumdan alınmıştır; üst sınır aynı yazıda belirtilir. Piyasa değeri örneklerinin tarihleri farklıdır: bunlardan eşzamanlı evren aralığı hesaplanamaz. **Piyasa değeri = hisse fiyatı × toplam hisse sayısı; firma değeri (enterprise value) ayrıca borç, nakit ve diğer düzeltmeleri kapsar.** Burada ikisi birbirinin yerine kullanılmaz. Özellikle SEC dosyalarındaki yalnızca halka açık/non-affiliate hisselerin toplamı, otomatik olarak şirketin tam piyasa değeri sayılmamıştır.
+
+Zylo bir SaaS yönetim satıcısının müşteri/veri örneklemidir; Fortune 500'e özel rastgele örneklem değildir. Bu yüzden 275 ve 49 milyon rakamları her Fortune 500 firmasının kesin kullanımı/harcaması değildir. Eski rapor adresinin artık 2026 raporuna yönlendiği görüldüğünden tarihli 2025 bulgularını koruyan kaynak sayfa kullanılmıştır. [2025 bulgularının bağımsız çapraz kontrolü — High Alpha, 21 Ocak 2025](https://www.highalpha.com/blog/navigating-saas-spending-in-2025-insights-from-zylos-saas-management-index)
+
+### Bir Fortune 500 şirketi neden bu SaaS'a para ödüyor?
+
+**Stanley Black & Decker, 2025 Fortune 500'de 283. sıradadır.** [Fortune, 2025 şirket sırası](https://fortune.com/article/fortune-500-power-moves-june-28-july-3/)
+
+Zendesk'in kendi müşteri vaka çalışması, şirketin bir ürün paketi için anlaşma yapıp farklı ülkelerdeki destek kanallarını birleştirdiğini anlatır. Amaç e-posta, telefon, sohbet ve bilgi bankasını tek operasyon altında yönetmektir. Kaynakta aylık yaklaşık **10.000 talep** ve **bir saatlik ilk yanıt SLA'sı** belirtilir. Bu, ticari ürün paketi edinimi ve fiilî kullanım kanıtıdır; sözleşme bedeli veya ödenmiş fatura kamuya açık değildir. Bugün hâlâ aynı sözleşmeyle ödeme yapıldığı sonucu çıkarılamaz. [Zendesk resmî 2019 vaka çalışması, PDF sayfa 7](https://web-assets.zendesk.com/pdf/The_Zendesk_Customer_Experience_Trends_2019_How-To_Guide.pdf#page=7)
+
+Bu kaynak kullanım/satın alma ilişkisini destekler; öğretmen ödeme dekontunu şart koşarsa o belge doğrulanamadı. PulseDesk'in ilk yanıt/zaman takibi dilimi bu operasyonun küçük bir parçasını ele alır.
+
+## Faz 2 — Kod ölçeği, tahmin ve gerçek maliyet
+
+### Zendesk kaç satır kod?
+
+Yaklaşık **2 milyon satır** büyüklüğünde Rails monoliti: Zendesk mühendisleri Cristian Planas ve Anatoly Mikhaylov'un rubyday 2024 sunum başlığı ve resmî programı bu ölçeği bildirir. Tahmin yöntemi rastgele modül çarpanı değil, ürünün mühendislerinin tarihli beyanını temel almaktır. Bu sayı 2024 monolitine aittir; 2026'daki bütün servislerin, testlerin ve bağımlılıkların yeniden ölçülmüş toplamı değildir. Kapalı kaynak depoya erişip LOC ölçümü yapmadık. [Konferansın birincil kaynağı](https://2024.rubyday.it/talks_speakers/) · [Konuşma kaydı/transkript](https://www.rubyevents.org/talks/2-000-engineers-2-million-lines-of-code-the-history-of-a-rails-monolith-rubyday-2024)
+
+Ödevin yaklaşık **300.000 satır** ölçek şartından daha büyük gerçek bir kurumsal üründür; tam 300.000 olduğunu iddia etmiyoruz. Eğer şart "en az bu mertebe" yerine "yaklaşık tam bu büyüklük" anlamındaysa öğretmen teyidi gerekir.
+
+PulseDesk'in bu sürümünde `app/` + `lib/` altındaki Ruby/ERB/JS/CSS dosyalarında **504 fiziksel satır** sayıldı: Ruby 303, ERB 151, JS 49, CSS 1. `ruby script/project_metrics.rb` ile tekrar üretilebilir. Boş satır/yorum dahil, test/bağımlılık/generated schema hariçtir; CSS tek satıra sıkıştırıldığı için bu ölçü emek veya kalite ölçütü değildir. Bu sayı Zendesk LOC tahminine oranlanmaz.
+
+### Coding agent ile bu aort dilimini üretme tahmini
+
+Tahmin kapsamı PulseDesk çekirdeğidir, Zendesk'in milyon satırlık bütün ürününü yeniden üretmek değildir. **3–6 saat** çalışma bütçesi bir planlama varsayımıdır: model/durum/SLA, ekranlar, testler, ortam/deploy ve inceleme için zaman ayrılmıştır. Ölçülmüş piyasa verimi veya garantili teslim süresi değildir. Tam kurumsal ürünün süresini küçük aort diliminden doğrusal ölçekleyemiyoruz.
+
+Tekrarlanabilir örnek **API kullanım bütçesi** (gerçek fatura değil):
+
+| Senaryo varsayımı | Hesap | Tahmini USD |
+| --- | --- | --- |
+| 2 milyon girdi + 0,2 milyon çıktı token | 2 × 2,50 + 0,2 × 15 | **8 USD** |
+| 10 milyon girdi + 1 milyon çıktı token | 10 × 2,50 + 1 × 15 | **40 USD** |
+
+Birim fiyat kaynağı: GPT-5.4 standard API, milyon token başına **2,50 USD girdi / 15 USD çıktı**. [OpenAI resmî model fiyatı](https://developers.openai.com/api/docs/models/gpt-5.4) Bu model sadece karşılaştırma senaryosudur; bu sohbetin modelini veya gerçek tüketimini temsil etmez. Token hacimleri proje için varsayımdır. Tek istekler uzun bağlam eşiğinin altında varsayılmış; cache indirimi, araç ücretleri, vergi, insan emeği ve abonelik bedeli dahil edilmemiştir. Codex aboneliği API token fiyatıyla aynı faturalama değildir. Kendi kullanım kaydın olmadan 8–40 USD'yi gerçek harcama diye sunma.
+
+### Gerçekte doğrulanabilen süre ve maliyet
+
+- İlk proje dosyası oluşturma kaydı: **19 Ekim 2026 00:25:06 TRT**, yerel `.ruby-version` dosya oluşturma zamanı. İlk commit: **01:10:12 TRT**, anahtar düzeltme commit'i: **01:49:53 TRT**. [Git geçmişi](https://github.com/ayseliremisik856-creator/PulseDesk/commits/main/)
+- İlk başarılı Render deploy bitişi: **02:19:11 TRT**. [Gerçek deploy kaydı](https://dashboard.render.com/web/srv-dbakkne1egvs73b330b0/deploys/dep-dbal6tlg1s2s73chiigg). İlk proje dosyası ile canlı deploy arasında yaklaşık **1 saat 54 dakika 5 saniye** var. Bu geçen takvim süresidir; aktif kodlama süresi değildir ve sonraki araştırma/ortak SLA geliştirmesi bu aralığa dahil değildir.
+- Önceki doğrulama: **27 test / 136 assertion**. Ortak politika geliştirmesi sonrası yerelde gerçekten çalıştırılan son paket: **39 test / 195 assertion, 0 failure, 0 error, 0 skip**. Sonraki CI/canlı kanıtları commit ve Actions kayıtlarından kontrol edilir; bu yazı gelecekteki koşuları peşinen başarılı saymaz.
+- Render web ve PostgreSQL kaynakları `free` planıyla yapılandırılmıştır; planın liste bedeli **0 USD**, fakat toplam hesap faturası ve agent abonelik/kredi dökümü okunmadı. **Gerçek toplam ödenen maliyet doğrulanamadı**; "0 dolar harcadım" sonucu çıkarılamaz. [Render ücretsiz plan koşulları](https://render.com/docs/free)
+
+## Gerçek kullanıcı sorunu → çalışan küçük çözüm
+
+**Kimin sorunu?** Alex M., Senior Project Coordinator, Consumer Services; G2'de 2 Ekim 2026 tarihli, **4/5** puanlı “Multi-Brand Support Made Simple: One Team, One Queue, Unified Reporting” yorumu. G2 bunu Current User / Validated Reviewer / Incentivized / Seller invite olarak etiketler; teşvikli oluşu belirtilmiştir. [Doğrudan yorumun bulunduğu kaynak](https://www.g2.com/products/zendesk-for-customer-service/reviews#:~:text=Multi-Brand%20Support%20Made%20Simple)
+
+Kısa alıntı: “Keeping triggers and automations consistent across both brands took more care than I expected”. Kullanıcı bir markaya eklediği kuralı diğerine yansıtmayı unuttuğu için otomatik etiketleme tutarsızlığı yaşadığını anlatıyor. Bu tüm ürünün teknik olarak ortak kurala izin vermediğinin kanıtı değildir; bir kullanıcının kural bakımı deneyimidir. Ayrıca yorum doğrudan SLA değil, markalar arası trigger/otomasyon tutarlılığı hakkındadır. **SLA yönetimi bu sorunun PulseDesk'te seçilmiş dar uygulamasıdır; otomatik etiketleme geliştirilmedi.**
+
+**Sunum cümlesi:** “G2'deki Alex M.'nin iki markada otomasyon kopyasını unutma sorununu, PulseDesk'te markaların aynı SLA politikasına bağlanması ve yeni taleplerin tek merkezdeki hedefi kullanmasıyla çözüyoruz.”
+
+### Çalışan ortak politika davranışı
+
+1. Üst menüden **Ortak SLA** ekranına gir; politika oluştur.
+2. İki markayı aynı politikaya bağla.
+3. Hedefi aynı ekrandan bir kez değiştir.
+4. Her iki markada yeni talep oluştur: kaydedilmiş hedef dakika aynı olur.
+5. Daha önce oluşturulan talepler kendi hedefini korur; bir hedef uzatılması geçmiş ihlali silemez.
+
+Politikalar ilk yanıt için **1–1440 tam dakika** kabul eder (proje tasarım sınırı, dış araştırma sayısı değildir). Politikasız marka **60 dakika** kullanır. Takvim dakikası hesaplanır; mesai/tatil takvimi yoktur. Değişiklik yalnızca yeni taleplere uygulanır; mevcut bekleyen taleplerin hedefi de sabittir. Markadan politika bağlantısı kaldırılınca gelecekteki talepler varsayılana döner. Hedef talebe kayıt anında kopyalanır, böylece geçmiş SLA sonuçları yeniden yazılmaz.
+
+### Korunan aort kuralları
+
+- `new → open → solved`; yeni kayıt `new`, atama durum değiştirmez, atlama/geri dönüş reddedilir.
+- Deadline = `created_at + sla_target_minutes`; tam sınır zamanında, bir saniye sonrası ihlal.
+- İlk geçerli personel yanıtı `first_response_at` alanını yalnızca bir kez doldurur; müşteri yanıtı doldurmaz.
+- Yanıtlar açık talebe eklenir. Geç yanıt veya çözülme geçmiş ihlali kaldırmaz.
+- Mevcut canlı kayıtlar eklemeli migration ile **60 dakika** hedefini korur; tablo/veri silinmez.
+
+## Geliştirme, test ve deploy
 
 ```powershell
 bundle install
-ruby bin/rails db:prepare
+ruby bin/rails db:migrate
 ruby bin/rails server -b 127.0.0.1 -p 3000
 ```
 
-Open http://127.0.0.1:3000. Add a brand and agent on the dashboard, then create a ticket.
-
 ```powershell
-$env:RAILS_ENV = 'test'
+$env:RAILS_ENV='test'
 ruby bin/rails db:migrate
 ruby bin/rails test
 Remove-Item Env:RAILS_ENV
+ruby bin/rails zeitwerk:check
 ```
 
-The suite contains the original 22 workflow tests and 5 master-key regression tests (27 total). Time travel covers the exact 60-minute boundary (on time) and one second beyond it (breached), plus late replies and the full HTTP workflow. These are unit, model and HTTP integration tests, not browser automation.
+Testlerde `travel_to` ile varsayılan/özel hedef sınırı, geç yanıttan sonra kalıcı ihlal, geriye dönük politika koruması, HTTP bağlantı/düzenleme ve tam talep akışı denetlenir. [Testler](test/) · [CI workflow](.github/workflows/ci.yml)
 
-## GitHub preparation
+CI, Ubuntu üzerinde SQLite testlerini ve ayrı PostgreSQL üretim işinde gerçek Render build betiğini çalıştırır. Üretim işi geçici CI credentials kullanır; gerçek anahtar kullanmaz. PostgreSQL iş akışı transaction içinde rollback edilir; ardından `/`, `/up` ve derlenmiş CSS kontrol edilir. Windows'ta geçen testler Linux başarısının yerine geçmez; Actions sonucunu ayrıca incele.
 
-No remote repository, push or Render service is created by these files. When ready, create an empty GitHub repository and replace the badge placeholders. From this directory, initialize Git if needed:
+Mevcut Render servisi korunur. `render.yaml`, aynı bölgedeki `pulsedesk-db` bağlantısını `DATABASE_URL` olarak verir; production SQLite kullanmaz. Build: `bash bin/render-build.sh`; start: `bundle exec puma -C config/puma.rb -b tcp://0.0.0.0:${PORT:-10000}`. `RAILS_ENV=production`, `BUNDLE_WITHOUT=development:test`, `BUNDLE_DEPLOYMENT=true`, `RAILS_MAX_THREADS=3`, `WEB_CONCURRENCY=0`. `RAILS_MASTER_KEY` gizli olarak Render'da tutulur; `SECRET_KEY_BASE` yerine geçmez. Üretim cache memory_store, job inline, Cable async; ek Solid veritabanı gerekmez.
 
-```powershell
-git init -b main
-git check-ignore config/master.key .env storage/development.sqlite3
-git add .
-git diff --cached --name-only
-# Review the staged file list before committing; private keys and local data must be absent.
-git commit -m "Prepare PulseDesk for Render"
-git remote add origin https://github.com/ayseliremisik856-creator/PulseDesk.git
-git push -u origin main
-```
+Free planda pre-deploy komutu olmadığından migration build sırasında çalışır. Eski uygulama sürümüyle uyumlu eklemeli değişiklikler kullanılmalıdır. CI yeşil olduktan sonra `checksPass` otomatik deploy tetikler; canlı test sonucu ayrıca doğrulanır. [Render Rails 8 rehberi](https://render.com/docs/deploy-rails-8)
 
-Commit `Gemfile.lock`, `.ruby-version`, `render.yaml` and encrypted `config/credentials.yml.enc`. Never commit `config/master.key`, credentials `.key` files, `.env` files or local SQLite files. `.gitignore` cannot remove secrets already tracked in Git history; rotate any exposed secret.
+`.gitignore` anahtarları, `.env`, SQLite ve tmp/log çıktısını dışlar. Şifreli `credentials.yml.enc` Git'tedir; anahtarı yoktur. `.gitattributes` Linux için LF satır sonlarını korur; lockfile Windows ve Linux platformlarını içerir. Agent erişim tokenları yalnızca güvenli yerel CLI yapılandırmasındadır, repo veya README'ye yazılmaz.
 
-`.gitattributes` keeps Rails binstubs, shell scripts and YAML in LF format. Render/CI invoke scripts via `bash`, `bundle exec rails` or `bundle exec puma`, so Windows Git's executable-bit handling does not block deployment.
+## Yapamadıklarım
 
-## Render free preview
+- Fortune 500'ün tüm şirketlerinde aynı tarihteki **tam değerleme minimum–maksimumu** doğrulanamadı. Piyasa değeri örneklerini bu eksikliğin yerine geçirmedim; firma değeri hesabı yapmadım.
+- Gerçek coding agent token/abonelik faturası ve insanın aktif çalışma süresi kaydı yok. Toplam gerçek maliyet doğrulanamadı; açık varsayımlı API tahmini ayrı gösterildi.
+- Müşteri anlaşması/kullanımı kaynaklıdır; Stanley Black & Decker'ın ödeme dekontu, ücret tutarı veya halen devam eden kontratı kamuya açık olarak doğrulanamadı.
+- Kaynak Zendesk monoliti yaklaşık 2 milyon satır bildiriyor; tam 300.000 satır veya güncel tüm ürün LOC ölçümü doğrulanamadı.
+- Render'ın bu öğrencinin daha önce hiç kullanmadığı platform olduğu yalnızca öğrencinin geçmişiyle teyit edilebilir; bu depodan doğrulanamaz.
+- Classroom'a bağlantı gönderimi, ders başlamadan teslim ve canlı sunum burada yapılamaz; öğrenci tamamlamalıdır.
+- Login, kullanıcı yetkilendirmesi, tenant izolasyonu, ödeme sistemi, mesai/tatil takvimi, otomatik etiketleme ve tam bir Zendesk klonu yok. Var oldukları sunumda iddia edilmemelidir.
+- Ortak politika mevcut taleplere geriye dönük uygulanmaz. Kalıcı kuyruk/planlı job veya çok süreçli Cable yok.
+- Free Render PostgreSQL **30 gün sonra sona erer**; kalıcı ticari hosting/backup çözümü tamamlanmadı. Aktif Storage yerel diski geçicidir, ek dosya yükleme özelliği sunulmuyor. [Ücretsiz plan sınırları](https://render.com/docs/free)
 
-Configuration follows [Render's Rails 8 guide](https://render.com/docs/deploy-rails-8). Use the native Ruby runtime and the repository-root `render.yaml` Blueprint. Both the web service and PostgreSQL explicitly use `plan: free` and the Frankfurt region. No services have been provisioned yet.
+## Beş dakikalık sunum akışı
 
-1. Push the reviewed repository when ready and wait for GitHub Actions to pass.
-2. In Render, select **New → Blueprint** and connect that repository/branch.
-3. Review the two free resources. Set `RAILS_MASTER_KEY` privately to the contents of your local `config/master.key`; do not paste it into source code, chat or logs.
-4. Approve creation. Render injects the internal `DATABASE_URL` from `pulsedesk-db` and runs `bash bin/render-build.sh`.
-5. The script installs locked gems, precompiles/cleans assets and runs migrations. Free services do not support a pre-deploy command, so migrations run in the build. Use additive/backward-compatible migrations while an older release may still serve traffic.
-6. Verify the generated HTTPS URL, `/up`, and the create → assign → open → reply → solve workflow. Start with synthetic data.
-
-| Setting | Source / purpose |
+| Süre | Gösterilecek |
 | --- | --- |
-| Ruby | `.ruby-version` and `Gemfile.lock` pin 4.0.7; Bundler is locked to 4.0.20. The first Linux build must confirm availability on Render. |
-| `RAILS_ENV` | `production` |
-| `DATABASE_URL` | Render internal PostgreSQL URL, injected by Blueprint; required in production. Never use a local SQLite fallback. |
-| `RAILS_MASTER_KEY` | Private manual entry (`sync: false`); production requires the key. Existing encrypted credentials supply `secret_key_base`. |
-| `PORT` | Provided by Render; Puma binds `0.0.0.0:$PORT` (fallback 10000 in start command). Do not hard-code a different port. |
-| `BUNDLE_WITHOUT` | `development:test`, excludes SQLite and Solid tooling from production. |
-| `BUNDLE_DEPLOYMENT` | `true`, requires a matching committed lockfile. |
-| `RAILS_SERVE_STATIC_FILES` | `true`; Puma serves compiled assets. |
-| `RAILS_LOG_TO_STDOUT` | `true`; Rails already logs to stdout in production. |
-| `WEB_CONCURRENCY` | `0` means Puma single mode, one process, to limit memory and match the async Cable adapter. |
-| `RAILS_MAX_THREADS` | `3`, matched by PostgreSQL's connection pool. |
+| 30 sn | PulseDesk, ticari müşteri kanıtı ve dar destek iş akışı |
+| 2 dk | Canlıda oluştur → ata → aç → yanıtla → çöz |
+| 1 dk | `FirstResponseSla#deadline` / `#breached?`, `Ticket#valid_status_transition` ve travel_to testleri |
+| 1 dk | Alex M. yorumu; iki marka/tek politika ve geçmiş hedefin korunması; eksikler |
+| 30 sn | `AGENT.md` dosya haritası: süre hesabı serviste, geçiş modeli Ticket'ta, politika hedefi SlaPolicy'de |
 
-HTTPS is assumed behind Render's TLS proxy; `force_ssl` is retained and `/up` is excluded from redirects. `SECRET_KEY_BASE` need not be entered separately when the correct encrypted credentials/master key are present. SMTP and external file storage are not used by the current workflow.
-
-### Credentials build errors
-
-`ArgumentError: key must be 16 bytes` during `assets → environment` can come from Rails credentials (`ActiveSupport::EncryptedFile`, AES-128-GCM). Its master key is **32 hex characters**, decoded into 16 bytes; it is not the longer `secret_key_base` used for cookies. Rails prefers `RAILS_MASTER_KEY` over the ignored local key file.
-
-Boot now removes outer whitespace from the environment master key (as Rails already does for key files) and rejects other malformed input without displaying it. The build validates that this key opens the existing credentials before compiling assets. This does not generate keys, re-encrypt credentials or disable encryption. If validation still fails, privately replace Render's `RAILS_MASTER_KEY` value with the contents of the matching local `config/master.key` and save/redeploy. Do not use `rails secret`, quotes, an assignment such as `RAILS_MASTER_KEY=...`, or a different project's key. Never share the value in logs or issues.
-
-The normalization regression tests supplement the original 22 workflow tests.
-
-### Solid components
-
-The generated Rails setup expected separate `cache`, `queue` and `cable` databases. The components can share PostgreSQL with their own tables, but require explicit schema/worker setup. For this synchronous preview they are disabled in production:
-
-- Cache: bounded 16 MB `memory_store`, disposable across restarts.
-- Jobs: `inline`, executes immediately; no persistent queue, worker or scheduled jobs. Add a durable queue before introducing slow/background work.
-- Cable: `async`, in one Puma process only. Add a shared adapter before scaling.
-
-Solid gems/generated schema files remain available for local tooling but are excluded from the production bundle. Production has one PostgreSQL connection only. The existing ticket/SLA logic needs no scheduler: deadlines are calculated when read.
-
-### Free-tier and application limits
-
-[Free Render PostgreSQL expires after 30 days](https://render.com/docs/free); free web services sleep after inactivity and use an ephemeral filesystem. This is a preview, not durable commercial production hosting. Upgrade PostgreSQL before expiry and arrange backups. Do not store SQLite data or uploads on the web service filesystem. Before adding attachments, configure external object storage; the generated Active Storage local setting is not durable on Render.
-
-The current app has no login, authorization or tenant isolation. Anyone who can reach it can manage the support data. Use synthetic data for the public demo; add these controls before using real customer information.
-
-## CI and platform verification
-
-`.github/workflows/ci.yml` runs on pushes, pull requests and manual dispatch with read-only repository permissions:
-
-- Ubuntu 24.04 / Ruby 4.0.7: migrate SQLite and run the full 27-test suite plus Zeitwerk validation.
-- Separate production job with PostgreSQL 16: install production gems only, generate disposable CI credentials, run the actual Render build script, exercise the PostgreSQL workflow inside a rolled-back transaction, start Puma and check `/`, `/up` and the compiled CSS URL.
-
-CI credentials replace the encrypted file only inside the disposable runner checkout; they never use the real master key and are not uploaded. The workflow does not need repository secrets. The Blueprint waits for passing GitHub checks before automatic deploys (initial creation still requires manual approval).
-
-The lockfile includes Windows `x64-mingw-ucrt` and Linux `x86_64-linux` platforms, including PostgreSQL native gems. After dependency updates, preserve both:
-
-```powershell
-bundle lock --add-platform x86_64-linux
-bundle install
-```
-
-Passing local Windows tests or asset compilation does not prove a Linux/Render deploy succeeded. GitHub-hosted jobs have not run until the repository is pushed; inspect their actual results before deployment. No GitHub Actions or Render success is implied by the badge template.
+Resmî kontrol listesinin madde madde mevcut durumu [docs/assignment-checklist.md](docs/assignment-checklist.md) içinde tutulur. Çalışan özelliklere ilişkin kanıt ile eksik araştırma maddeleri ayrıdır; **tüm 85/100 koşulları sağlandı** veya kesin not garantisi iddia edilmez.

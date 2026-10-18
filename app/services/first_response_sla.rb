@@ -1,13 +1,13 @@
-# Shared policy entry point: future brand policies can supply their target here.
+# All time decisions use the ticket's immutable creation-time policy snapshot.
 class FirstResponseSla
-  TARGET = 60.minutes
+  DEFAULT_TARGET_MINUTES = 60
 
   def initialize(ticket)
     @ticket = ticket
   end
 
   def deadline
-    @ticket.created_at + TARGET
+    @ticket.created_at + @ticket.sla_target_minutes.minutes
   end
 
   # A response exactly at the deadline meets the target.

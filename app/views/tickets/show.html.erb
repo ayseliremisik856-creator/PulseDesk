@@ -15,7 +15,7 @@
     </section>
   </section>
   <aside>
-    <section class="panel padded sla-panel"><p class="eyebrow">İLK YANIT SLA</p><h2 class="<%= 'danger' if @ticket.sla.breached? %>"><%= sla_label(@ticket) %></h2><p>Hedef: <%= l @ticket.sla.deadline, format: :short %></p><p class="muted">Ortak hedef: 60 dakika. Geç yanıt SLA ihlalini kaldırmaz.</p><% if @ticket.first_response_at %><p>İlk personel yanıtı: <%= l @ticket.first_response_at, format: :short %></p><% end %></section>
+    <section class="panel padded sla-panel"><p class="eyebrow">İLK YANIT SLA</p><h2 class="<%= 'danger' if @ticket.sla.breached? %>"><%= sla_label(@ticket) %></h2><p>Hedef: <%= l @ticket.sla.deadline, format: :short %></p><p class="muted">Kaydedilmiş hedef: <%= @ticket.sla_target_minutes %> dakika. Politika değişikliği ve geç yanıt geçmiş ihlali kaldırmaz.</p><% if @ticket.first_response_at %><p>İlk personel yanıtı: <%= l @ticket.first_response_at, format: :short %></p><% end %></section>
     <section class="panel padded"><h2>Talep yönetimi</h2><p class="muted">Öncelik: <%= priority_label(@ticket.priority) %></p>
       <%= form_with model: @ticket do |f| %><%= f.label :agent_id, "Atanan ajan" %><%= f.collection_select :agent_id, @agents, :id, :name, include_blank: "Atanmadı" %><%= f.submit "Atamayı kaydet", class: "button secondary" %><% end %>
       <% @ticket.available_statuses.each do |status| %><%= button_to(status == "open" ? "Talebi aç" : "Çözüldü olarak işaretle", ticket_path(@ticket), method: :patch, params: { ticket: { status: status } }, class: "button transition") %><% end %>

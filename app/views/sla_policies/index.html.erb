@@ -1,0 +1,24 @@
+<div class="page-heading"><div><p class="eyebrow">ORTAK KURALLAR</p><h1>Bir politika, tutarlı markalar.</h1><p class="muted">Hedefi tek noktadan değiştirin; bağlı markaların yeni taleplerinde birlikte uygulansın.</p></div></div>
+<p class="flash">Mevcut talepler oluşturuldukları andaki hedefi korur. Politika değişiklikleri geçmiş süreleri veya SLA ihlallerini silmez. Politikasız markalar 60 dakika kullanır.</p>
+<%= render "tickets/errors", record: @policy %>
+<div class="two-columns">
+  <section class="panel padded"><h2>Yeni ortak politika</h2><%= form_with model: SlaPolicy.new do |f| %>
+    <%= f.label :name, "Politika adı" %><%= f.text_field :name, required: true %>
+    <%= f.label :first_response_minutes, "İlk yanıt hedefi (dakika)" %><%= f.number_field :first_response_minutes, value: 60, min: 1, max: 1440, required: true %>
+    <%= f.submit "Politika oluştur", class: "button" %>
+  <% end %></section>
+  <section class="panel padded"><h2>Markaları bağla</h2>
+    <% if @brands.empty? %><p>Önce <%= link_to "dashboard'dan marka ekleyin", root_path %>.</p><% end %>
+    <% @brands.each do |brand| %><%= form_with model: brand do |f| %>
+      <%= f.label :sla_policy_id, brand.name %><%= f.collection_select :sla_policy_id, @policies, :id, :name, include_blank: "Varsayılan · 60 dakika" %>
+      <%= f.submit "#{brand.name} bağlantısını kaydet", class: "button secondary" %>
+    <% end %><% end %>
+  </section>
+</div>
+<h2 class="section-title">Politikaları tek noktadan düzenle</h2>
+<% @policies.each do |policy| %><section class="panel padded setup">
+  <p class="muted">Bağlı markalar: <%= policy.brands.map(&:name).join(" · ").presence || "Henüz marka bağlı değil" %></p>
+  <%= form_with model: policy do |f| %><div class="two-columns"><div><%= f.label :name, "Politika adı" %><%= f.text_field :name, required: true %></div><div><%= f.label :first_response_minutes, "İlk yanıt hedefi (dakika)" %><%= f.number_field :first_response_minutes, min: 1, max: 1440, required: true %></div></div>
+    <%= f.submit "Ortak politikayı güncelle", class: "button" %>
+  <% end %>
+</section><% end %>

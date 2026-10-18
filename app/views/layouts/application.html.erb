@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="tr">
   <head>
+    <meta charset="utf-8">
     <title>PulseDesk · Müşteri desteği</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
@@ -11,7 +12,7 @@
   <body>
     <header class="topbar">
       <%= link_to root_path, class: "logo" do %><span class="logo-mark">p/</span> PulseDesk<% end %>
-      <nav><%= link_to "Genel bakış", root_path %><%= link_to "+ Yeni talep", new_ticket_path, class: "button" %></nav>
+      <nav><%= link_to "Genel bakış", root_path %><%= link_to "Ortak SLA", sla_policies_path %><%= link_to "+ Yeni talep", new_ticket_path, class: "button" %></nav>
     </header>
     <main class="container">
       <% flash.each do |kind, message| %><div role="status" class="flash <%= kind %>"><%= message %></div><% end %>
