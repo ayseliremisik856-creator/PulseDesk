@@ -25,7 +25,7 @@ ruby bin/rails test
 Remove-Item Env:RAILS_ENV
 ```
 
-The existing suite contains 22 tests. Time travel covers the exact 60-minute boundary (on time) and one second beyond it (breached), plus late replies and the full HTTP workflow. These are model and HTTP integration tests, not browser automation.
+The suite contains the original 22 workflow tests and 5 master-key regression tests (27 total). Time travel covers the exact 60-minute boundary (on time) and one second beyond it (breached), plus late replies and the full HTTP workflow. These are unit, model and HTTP integration tests, not browser automation.
 
 ## GitHub preparation
 
@@ -73,6 +73,14 @@ Configuration follows [Render's Rails 8 guide](https://render.com/docs/deploy-ra
 
 HTTPS is assumed behind Render's TLS proxy; `force_ssl` is retained and `/up` is excluded from redirects. `SECRET_KEY_BASE` need not be entered separately when the correct encrypted credentials/master key are present. SMTP and external file storage are not used by the current workflow.
 
+### Credentials build errors
+
+`ArgumentError: key must be 16 bytes` during `assets → environment` can come from Rails credentials (`ActiveSupport::EncryptedFile`, AES-128-GCM). Its master key is **32 hex characters**, decoded into 16 bytes; it is not the longer `secret_key_base` used for cookies. Rails prefers `RAILS_MASTER_KEY` over the ignored local key file.
+
+Boot now removes outer whitespace from the environment master key (as Rails already does for key files) and rejects other malformed input without displaying it. The build validates that this key opens the existing credentials before compiling assets. This does not generate keys, re-encrypt credentials or disable encryption. If validation still fails, privately replace Render's `RAILS_MASTER_KEY` value with the contents of the matching local `config/master.key` and save/redeploy. Do not use `rails secret`, quotes, an assignment such as `RAILS_MASTER_KEY=...`, or a different project's key. Never share the value in logs or issues.
+
+The normalization regression tests supplement the original 22 workflow tests.
+
 ### Solid components
 
 The generated Rails setup expected separate `cache`, `queue` and `cable` databases. The components can share PostgreSQL with their own tables, but require explicit schema/worker setup. For this synchronous preview they are disabled in production:
@@ -93,7 +101,7 @@ The current app has no login, authorization or tenant isolation. Anyone who can 
 
 `.github/workflows/ci.yml` runs on pushes, pull requests and manual dispatch with read-only repository permissions:
 
-- Ubuntu 24.04 / Ruby 4.0.7: migrate SQLite and run the full 22-test suite plus Zeitwerk validation.
+- Ubuntu 24.04 / Ruby 4.0.7: migrate SQLite and run the full 27-test suite plus Zeitwerk validation.
 - Separate production job with PostgreSQL 16: install production gems only, generate disposable CI credentials, run the actual Render build script, exercise the PostgreSQL workflow inside a rolled-back transaction, start Puma and check `/`, `/up` and the compiled CSS URL.
 
 CI credentials replace the encrypted file only inside the disposable runner checkout; they never use the real master key and are not uploaded. The workflow does not need repository secrets. The Blueprint waits for passing GitHub checks before automatic deploys (initial creation still requires manual approval).

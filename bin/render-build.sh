@@ -8,6 +8,7 @@ export RAILS_ENV=production
 : "${RAILS_MASTER_KEY:?Set RAILS_MASTER_KEY in Render, never in this script}"
 
 bundle install
+bundle exec ruby script/validate_credentials.rb
 bundle exec rails assets:precompile
 bundle exec rails assets:clean
 
