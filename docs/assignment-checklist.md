@@ -17,13 +17,13 @@ Kaynak: öğrencinin bu geliştirme görüşmesinde paylaştığı 19 Ekim 2026 
 | No | Kriter | Durum |
 | --- | --- | --- |
 | 1 | Kaynaklı Fortune 500 müşteri kanıtı | Tamamlandı: Stanley Black & Decker, Fortune sırası + Zendesk resmî ürün edinimi/kullanım vakası. Ödeme dekontu yok; aşağıdaki özel şartın yorumu önemlidir. |
-| 2a | Değerleme en küçük–en büyük | **Eksik:** tüm evren için aynı tarihli güvenilir aralık yok. Piyasa değeri/firma değeri ayrımı ve tarihli örnekler var; bunlar evren aralığı değildir. |
+| 2a | Değerleme en küçük–en büyük | **Eksik / sınırlı alternatif:** 2026 veri ürünleri araştırıldı; bütün evren doğrulanamadı. İlk on şirketin tamamı tarih bakımından denetlendi; aynı tarihli beş halka açık şirketin aralığı README'de. Bu, tüm halka açık üyelerin veya 500 şirketin aralığı değildir. |
 | 2b | Çalışan aralığı | Tamamlandı: kaynaklı 2025 aralığı README'de. |
 | 2c | Yaklaşık SaaS sayısı | Tamamlandı: Zylo örneklem ortalaması, Fortune 500 genellemesi olmadığı belirtilir. |
 | 2d | Yaklaşık yıllık SaaS harcaması | Tamamlandı: aynı örneklem ve tarih; her rakam yanında kaynak. |
 | 3a | Ürün LOC ve yöntem | Tamamlandı: mühendislerin konferans beyanıyla yaklaşık 2 milyon; kapsam/tarih ve ölçüm sınırı açık. |
-| 3b | Agent maliyet/süre tahmini | Tamamlandı: açık kapsam/varsayım, fiyat kaynağı, 8–40 USD API senaryosu ve 3–6 saat planlama bütçesi. |
-| 3c | Gerçek süre/maliyet | **Kısmen:** dosya/Git/deploy ile geçen süre doğrulandı; aktif süre ve gerçek toplam fatura doğrulanamadı. |
+| 3b | Agent maliyet/süre tahmini | Tamamlandı: gerçek modelin resmî fiyatlarıyla 6–30 USD varsayımlı API bütçesi ve 3–6 saat planlama varsayımı. |
+| 3c | Gerçek süre/maliyet | **Kısmen:** 157 benzersiz kayıtla gerçek token tüketimi ve uzun bağlam dahil 6,647046 USD Standard API eşdeğeri doğrulandı; Git/oturum geçen süresi var. Gerçek ödeme/abonelik faturası ve aktif süre doğrulanamadı. API eşdeğeri ödeme diye sunulmaz. |
 | 4 | Rails 8+ canlı aort | Tamamlandı: Rails 8.1.4; eafc01e Render'da live ve gerçek HTTP akışı geçti. |
 | 5 | Zaman kuralı ve durum geçişi | Tamamlandı: kayıt hedefi + new/open/solved. |
 | 6 | Otomatik test ve travel_to | Tamamlandı: varsayılan/ortak hedef sınırı ve kalıcı ihlal testleri. |

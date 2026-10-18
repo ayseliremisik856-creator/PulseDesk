@@ -12,18 +12,44 @@
 
 ## Faz 1 — Kurumsal ölçek ve satın alma kanıtı
 
-Araştırma tarihi: **19 Ekim 2026**. Fortune 500 ABD listesidir; Global 500 ile karıştırılmamıştır. Tarihli 2025 verileri tarihsel karşılaştırma olarak kullanılır, 2026 ölçümü gibi sunulmaz. Fortune listesi ciro sıralamasıdır, borsa büyüklüğü sıralaması değildir. [Fortune'un 2025 duyurusu](https://fortunemedia.mediaroom.com/2025-06-02-Fortune-Announces-2025-Fortune-500-List)
+Araştırma tarihi: **19 Ekim 2026**. Esas evren **2026 ABD Fortune 500**; Global 500 değildir. Liste **ciroya göre** sıralanır; halka açık ve özel şirketleri kapsar. [Fortune açıklaması](https://fortune.com/article/what-is-a-fortune-500-company-the-story-behind-the-list/) Tarihli 2025 çalışan/SaaS araştırması aşağıda tarihsel veri olarak ayrıca etiketlenmiştir.
 
 | İstenen ölçü | Doğrulanan sayı / kapsam | Kaynak |
 | --- | --- | --- |
 | Çalışan aralığı, 2025 | A-Mark **486** — Walmart yaklaşık **2.100.000** | [Fortune, 2 Haziran 2025](https://fortune.com/2025/06/02/fortune-500-employees-headcount-workforce-largest-smallest/) |
-| Tüm Fortune 500'ün değerleme min–max aralığı | **Doğrulanamadı.** Eksiksiz, aynı tarihli değerleme verisi alınamadı; özel şirketlerin halka açık piyasa değeri yok. Örnek şirket aralığı gerçek minimum/maksimum olarak sunulmaz. | [Liste ve tam veri erişimi](https://fortune.com/ranking/fortune500/2025/) |
-| Piyasa değeri örneği — Stanley Black & Decker | **11,035 milyar USD**, 31 Mart 2026 | [Fortune şirket profili](https://fortune.com/company/stanley-black-decker/) |
-| Piyasa değeri örneği — Apple | **4,459835 trilyon USD**, 16 Ağustos 2026 | [Fortune şirket profili](https://fortune.com/company/apple/) |
+| Tüm 2026 Fortune 500'ün karşılaştırılabilir değerleme min–max aralığı | **Doğrulanamadı.** Aşağıdaki beş şirketlik aynı tarihli alternatif tüm evrenin minimum/maksimumu değildir. | [2026 liste](https://fortune.com/ranking/fortune500/) · [Veri ürünü](https://dc.fortune.com/analytics/fortune-500) |
 | Bir kuruluşun SaaS portföyü | Ortalama **275 uygulama**, 2025 raporunun örneklemi | [Zylo, 2025 bulguları](https://zylo.com/blog/prioritizing-saas-management-in-2025-focus-on-these-3-things) |
 | Yıllık SaaS harcaması | Ortalama **49 milyon USD/yıl**, aynı örneklem | [Zylo, 2025 bulguları](https://zylo.com/blog/prioritizing-saas-management-in-2025-focus-on-these-3-things) |
 
-Çalışan alt sınırı, Fortune'un en düşük çalışanlı şirketleri sıraladığı listedeki minimumdan alınmıştır; üst sınır aynı yazıda belirtilir. Piyasa değeri örneklerinin tarihleri farklıdır: bunlardan eşzamanlı evren aralığı hesaplanamaz. **Piyasa değeri = hisse fiyatı × toplam hisse sayısı; firma değeri (enterprise value) ayrıca borç, nakit ve diğer düzeltmeleri kapsar.** Burada ikisi birbirinin yerine kullanılmaz. Özellikle SEC dosyalarındaki yalnızca halka açık/non-affiliate hisselerin toplamı, otomatik olarak şirketin tam piyasa değeri sayılmamıştır.
+Çalışan aralığı kaynak yazının 2025 evrenine aittir; 2026 çalışan minimumu olarak sunulmaz. **Piyasa değeri = hisse fiyatı × toplam hisse sayısı.** Firma değeri (enterprise value), ciro ve marka değeri farklı ölçülerdir; hesapta kullanılmadı. SEC'in yalnızca non-affiliate hisseler için bildirdiği değer de tüm şirketin piyasa değeri kabul edilmedi.
+
+### 2026 değerleme veri kümesi araştırması ve sınırlı alternatif
+
+Fortune Analytics, 2026 tam veri ürününde market value alanını listeliyor. Bu, özel şirketlerin de aynı yöntemle değerlenmiş olduğu veya boş alan bulunmadığı kanıtı değildir. Satın alınmış veri dosyasına erişilmedi; bir veri ürünü bulunamadı demiyoruz. **Tüm 500 şirketi aynı tarihte ve aynı tanımla değerleyen erişilebilir bir veri kümesi doğrulanamadı.** Özel şirketlerde borsa piyasa değeri yoktur; boş değerler sıfır sayılamaz. [Fortune Analytics veri kapsamı](https://dc.fortune.com/analytics/fortune-500) · [Şirket kapsamı](https://dc.fortune.com/analytics/faq)
+
+Üçüncü taraf [US500](https://us500.com/fortune-500-companies) yalnızca halka açık şirketleri içerdiğini söylüyor; açık tablosunda karşılaştırılabilir piyasa değeri sütunu bulunmuyor. [Databahn](https://www.databahn.com/products/2026-fortune-500-list-excel-spreadsheet-list-download-bogo-offer) market cap sütunlu ticari ürün sunuyor; dosyası alınmadığı ve ortak değerleme tarihi doğrulanmadığı için minimum hesabında kullanılmadı. Ücretli veri satın alınmadı, erişim engeli aşılmadı.
+
+**Açıkça tanımlanan dar kapsam:** 2026 listesinin ciro bakımından ilk on şirketinin açık Fortune profilleri incelendi; bunların içinde piyasa değeri tarihi **18 Ağustos 2026** olan halka açık şirketlerin **tamamı** alındı. Tarih, bu profillerde ortak olan en kalabalık grup olduğu için seçildi; önceden kaydedilmiş bir araştırma protokolü değildir. Bu seçim bir kolaylık örneklemidir; tüm halka açık Fortune 500 şirketlerini temsil etmez. Tarih eşleme sonucunda beş kayıt kaldı. Aşağıdaki her değer şirket profilindeki USD milyon alanından alınmıştır; diğer beş şirket de dışlama tablosunda gösterilir.
+
+| Dahil edilen şirket | Piyasa değeri (milyon USD), 18 Ağustos 2026 | Doğrudan kaynak |
+| --- | ---: | --- |
+| UnitedHealth Group | 353.590 | [UNH](https://fortune.com/company/unitedhealth-group/) |
+| Exxon Mobil Holdings | 680.768 | [XOM](https://fortune.com/company/exxon-mobil/) |
+| Walmart | 916.771 | [WMT](https://fortune.com/company/walmart/) |
+| Amazon | 2.798.509 | [AMZN](https://fortune.com/company/amazon-com/) |
+| Alphabet | 4.193.427 | [GOOGL](https://fortune.com/company/alphabet/) |
+
+Bu **beş kayıt karşılaştırıldığında** alt sınır UnitedHealth Group **353,590 milyar USD**, üst sınır Alphabet **4,193427 trilyon USD** olur; birim dönüşümü milyon USD / 1.000 = milyar USD'dir. Bu sadece tanımlanan alt kümenin aralığıdır. Fortune 500'ün veya bütün halka açık üyelerinin minimum/maksimumu olduğu iddia edilmez. Apple/Nvidia gibi kapsam dışı şirketlerden daha büyük/küçük bir değer çıkması bu sınırlı hesabı değiştirmez.
+
+| İlk on içindeki dışlanan şirket | Profildeki piyasa değeri tarihi | Kaynak |
+| --- | --- | --- |
+| Apple | 16 Ağustos 2026 | [AAPL](https://fortune.com/company/apple/) |
+| CVS Health | 13 Temmuz 2026 | [CVS](https://fortune.com/company/cvs-health/) |
+| Berkshire Hathaway | 13 Temmuz 2026 | [BRK.A](https://fortune.com/company/berkshire-hathaway/) |
+| McKesson | 13 Temmuz 2026 | [MCK](https://fortune.com/company/mckesson/) |
+| Cencora | 13 Temmuz 2026 | [COR](https://fortune.com/company/amerisourcebergen/) |
+
+İlk on üyeliği [2026 resmî sıralamasından](https://fortune.com/ranking/fortune500/) kontrol edildi. Açık profiller zamanla güncellenir: burada veri erişim tarihi ile piyasa değeri tarihi ayrıdır. **Ödevin bütün evren için en küçük–en büyük şartı halen eksiktir.** En güçlü sonraki adım, lisanslı 2026 dosyasının halka açık üyelerinde ortak tarih/eksik kayıt denetimi yapıp tüm dolu market value satırlarını sıralamaktır; bu bile özel şirketler dahil tam değerleme olmaz.
 
 Zylo bir SaaS yönetim satıcısının müşteri/veri örneklemidir; Fortune 500'e özel rastgele örneklem değildir. Bu yüzden 275 ve 49 milyon rakamları her Fortune 500 firmasının kesin kullanımı/harcaması değildir. Eski rapor adresinin artık 2026 raporuna yönlendiği görüldüğünden tarihli 2025 bulgularını koruyan kaynak sayfa kullanılmıştır. [2025 bulgularının bağımsız çapraz kontrolü — High Alpha, 21 Ocak 2025](https://www.highalpha.com/blog/navigating-saas-spending-in-2025-insights-from-zylos-saas-management-index)
 
@@ -49,19 +75,52 @@ PulseDesk'in bu sürümünde `app/` + `lib/` altındaki Ruby/ERB/JS/CSS dosyalar
 
 Tahmin kapsamı PulseDesk çekirdeğidir, Zendesk'in milyon satırlık bütün ürününü yeniden üretmek değildir. **3–6 saat** çalışma bütçesi bir planlama varsayımıdır: model/durum/SLA, ekranlar, testler, ortam/deploy ve inceleme için zaman ayrılmıştır. Ölçülmüş piyasa verimi veya garantili teslim süresi değildir. Tam kurumsal ürünün süresini küçük aort diliminden doğrusal ölçekleyemiyoruz.
 
-Tekrarlanabilir örnek **API kullanım bütçesi** (gerçek fatura değil):
+Planlama için örnek API bütçesi: kısa bağlamda **2 milyon uncached input + 0,2 milyon output = 6 USD**; **10 milyon + 1 milyon = 30 USD**. Token hacimleri varsayımdır; cache, uzun bağlam, araç, vergi ve insan emeği hariçtir. Gerçek kayıtlarda görülen model **gpt-6.1-sol** için Standard birim fiyat kullanıldı: milyon token başına **2 USD input / 0,10 USD cached input / 10 USD output**. **272.000 input tokenı aşan istekler** için bütün istekte **4 / 0,20 / 15 USD** uygulanır. [OpenAI resmî model ve fiyat kuralları](https://developers.openai.com/api/docs/models/gpt-6.1-sol)
 
-| Senaryo varsayımı | Hesap | Tahmini USD |
-| --- | --- | --- |
-| 2 milyon girdi + 0,2 milyon çıktı token | 2 × 2,50 + 0,2 × 15 | **8 USD** |
-| 10 milyon girdi + 1 milyon çıktı token | 10 × 2,50 + 1 × 15 | **40 USD** |
+### Erişilebilir gerçek token kaydı ve API eşdeğeri
 
-Birim fiyat kaynağı: GPT-5.4 standard API, milyon token başına **2,50 USD girdi / 15 USD çıktı**. [OpenAI resmî model fiyatı](https://developers.openai.com/api/docs/models/gpt-5.4) Bu model sadece karşılaştırma senaryosudur; bu sohbetin modelini veya gerçek tüketimini temsil etmez. Token hacimleri proje için varsayımdır. Tek istekler uzun bağlam eşiğinin altında varsayılmış; cache indirimi, araç ücretleri, vergi, insan emeği ve abonelik bedeli dahil edilmemiştir. Codex aboneliği API token fiyatıyla aynı faturalama değildir. Kendi kullanım kaydın olmadan 8–40 USD'yi gerçek harcama diye sunma.
+Yalnızca çalışma dizini PulseDesk olan mevcut Codex Desktop oturumu incelendi. Ham oturum, mesajlar, araç çıktıları ve kimlik bilgileri depoya eklenmedi. Sayısal, anonim özet: [JSON kanıtı](docs/codex-usage-2026-10-19.json); yeniden hesaplayan [betik](script/audit_codex_usage.rb). Resmî App Server belgesi oturum token kullanım bildirimini tanımlar; yerel JSONL formatı fatura sözleşmesi olarak kabul edilmez. [OpenAI kullanım bildirimi](https://learn.chatgpt.com/docs/app-server#streaming-events)
+
+**Sabit veri kesimi:** 19 Ekim 2026 **02:36:30 TRT** (18 Ekim 23:36:30 UTC). Bu kesim önceki çalışan sürümün belgelemesini kapsar; bu son teslim araştırmasının sonraki tüketimini kapsamaz. Görünen tek model `gpt-6.1-sol`; ilk/son kullanım kaydı **00:22:03,011–02:36:06,182 TRT**. Bunlar bu oturumun kayıtlarıdır; içeri aktarılan eski sohbetin veya başka oturumların tam token geçmişi olduğu iddia edilmez.
+
+| Doğrulanan ölçü | Token |
+| --- | ---: |
+| Toplam input (cache dahil) | 28.539.461 |
+| Cached input (input'un alt kümesi) | 27.851.776 |
+| Uncached input (fark) | 687.685 |
+| Cache write | 0 |
+| Output (reasoning dahil) | 93.833 |
+| Reasoning output (output'un alt kümesi; tekrar eklenmez) | 20.248 |
+| Input + output toplamı | 28.633.294 |
+
+Yöntem: **157** benzersiz `response_id` için `token_usage_record.payload.usage` toplandı; son `thread_token_usage` ile alan alan birebir eşleşti. Tekrarlanan `event_msg` kümülatif sayaçları ve `turn_token_usage` tekrar toplanmadı. Tek bir uzun metnin token sayımı değil, tekrar kullanılan bağlamlar dahil istek tüketimidir. Bütün satırların kaynağı yukarıdaki yerel sayısal özet/betiktir; bağımsız ödeme belgesi değildir.
+
+| İstek grubu | İstek | Input | Cached input | Output |
+| --- | ---: | ---: | ---: | ---: |
+| Input ≤ 272.000 | 122 | 16.427.692 | 15.847.808 | 67.399 |
+| Input > 272.000 | 35 | 12.111.769 | 12.003.968 | 26.434 |
+
+**Standard API eşdeğer formülü (USD):**
+
+```text
+[(16.427.692 − 15.847.808) × 2 + 15.847.808 × 0,10 + 67.399 × 10
+ + (12.111.769 − 12.003.968) × 4 + 12.003.968 × 0,20 + 26.434 × 15] / 1.000.000
+= 6,647046 USD ≈ 6,65 USD
+```
+
+Bu **kayıtlı tüketimin Standard API fiyatlarıyla karşılığıdır**, gerçek harcama değildir. Endpoint/bölge ve işlem hızı faturadan doğrulanmadığı için Standard/default bölge varsayıldı; Fast/Ultrafast ücretleri, araç bedelleri, kredi satın alımları, vergi ve abonelik bedeli dahil değil. Gerçek kullanılan model doğrulandı; gerçek faturalama katmanı doğrulanmadı. Codex'in aboneliğe dahil kullanımı API fiyatlarıyla faturalandırılmaz. Hesabın planı, ödenen abonelik tutarı, dönem faturası ve projeye düşen payı gösteren erişilebilir ödeme belgesi bulunmadı; bunlara **0 USD** atanmadı. [OpenAI abonelik/API ayrımı](https://learn.chatgpt.com/docs/pricing)
+
+Yerelde tekrar üretim (SESSION_JSONL bu PulseDesk oturumunun özel yerel dosyasıdır; Git'e eklenmez):
+
+```powershell
+ruby script/audit_codex_usage.rb SESSION_JSONL 2026-10-18T23:36:30Z
+```
 
 ### Gerçekte doğrulanabilen süre ve maliyet
 
 - İlk proje dosyası oluşturma kaydı: **19 Ekim 2026 00:25:06 TRT**, yerel `.ruby-version` dosya oluşturma zamanı. İlk commit: **01:10:12 TRT**, anahtar düzeltme commit'i: **01:49:53 TRT**. [Git geçmişi](https://github.com/ayseliremisik856-creator/PulseDesk/commits/main/)
 - İlk başarılı Render deploy bitişi: **02:19:11 TRT**. [Gerçek deploy kaydı](https://dashboard.render.com/web/srv-dbakkne1egvs73b330b0/deploys/dep-dbal6tlg1s2s73chiigg). İlk proje dosyası ile canlı deploy arasında yaklaşık **1 saat 54 dakika 5 saniye** var. Bu geçen takvim süresidir; aktif kodlama süresi değildir ve sonraki araştırma/ortak SLA geliştirmesi bu aralığa dahil değildir.
+- Daha güçlü oturum kapsamı: yerel `session_meta` başlangıcı **00:21:53,666 TRT**, son kesim öncesi kullanım **02:36:06,182 TRT**: **2 saat 14 dakika 12,516 saniye geçen süre**. Git'in ilk commit'i **01:10:12**, kesim öncesi son commit `c8477a1` **02:33:58 TRT**: commitler arası **1 saat 23 dakika 46 saniye**. `git log --format="%h %aI %s"` ile kontrol edilir. Git zamanları bilgisayar saatine dayanır; bekleme, deploy ve araştırma içerir. Hiçbiri aktif çalışma saati veya insan mesaisi değildir. [Token/oturum özeti](docs/codex-usage-2026-10-19.json)
 - Önceki doğrulama: **27 test / 136 assertion**. Ortak politika geliştirmesi sonrası yerelde gerçekten çalıştırılan son paket: **39 test / 195 assertion, 0 failure, 0 error, 0 skip**. Sonraki CI/canlı kanıtları commit ve Actions kayıtlarından kontrol edilir; bu yazı gelecekteki koşuları peşinen başarılı saymaz.
 - Render web ve PostgreSQL kaynakları `free` planıyla yapılandırılmıştır; planın liste bedeli **0 USD**, fakat toplam hesap faturası ve agent abonelik/kredi dökümü okunmadı. **Gerçek toplam ödenen maliyet doğrulanamadı**; "0 dolar harcadım" sonucu çıkarılamaz. [Render ücretsiz plan koşulları](https://render.com/docs/free)
 
@@ -119,8 +178,8 @@ Free planda pre-deploy komutu olmadığından migration build sırasında çalı
 
 ## Yapamadıklarım
 
-- Fortune 500'ün tüm şirketlerinde aynı tarihteki **tam değerleme minimum–maksimumu** doğrulanamadı. Piyasa değeri örneklerini bu eksikliğin yerine geçirmedim; firma değeri hesabı yapmadım.
-- Gerçek coding agent token/abonelik faturası ve insanın aktif çalışma süresi kaydı yok. Toplam gerçek maliyet doğrulanamadı; açık varsayımlı API tahmini ayrı gösterildi.
+- 2026 Fortune 500'ün tüm şirketlerinde aynı tarihteki **tam değerleme minimum–maksimumu** doğrulanamadı. Beş şirketlik tarih eşlenmiş alt küme sunuldu; tüm halka açık üyelerin aralığı bile olduğu iddia edilmedi. Lisanslı tam verinin elde edilmesi ve eksik/tarih kontrolü gerekir.
+- PulseDesk oturumunun gerçek token sayıları doğrulandı; **gerçek ödeme/abonelik faturası** ve aktif çalışma süresi doğrulanamadı. Kesim sonrası tüketim özette yok. 6,65 USD Standard API eşdeğeri toplam gerçek maliyet değildir.
 - Müşteri anlaşması/kullanımı kaynaklıdır; Stanley Black & Decker'ın ödeme dekontu, ücret tutarı veya halen devam eden kontratı kamuya açık olarak doğrulanamadı.
 - Kaynak Zendesk monoliti yaklaşık 2 milyon satır bildiriyor; tam 300.000 satır veya güncel tüm ürün LOC ölçümü doğrulanamadı.
 - Render'ın bu öğrencinin daha önce hiç kullanmadığı platform olduğu yalnızca öğrencinin geçmişiyle teyit edilebilir; bu depodan doğrulanamaz.
@@ -142,3 +201,5 @@ Free planda pre-deploy komutu olmadığından migration build sırasında çalı
 Resmî kontrol listesinin madde madde mevcut durumu [docs/assignment-checklist.md](docs/assignment-checklist.md) içinde tutulur. Çalışan özelliklere ilişkin kanıt ile eksik araştırma maddeleri ayrıdır; **tüm 85/100 koşulları sağlandı** veya kesin not garantisi iddia edilmez.
 
 Kod commit'i `eafc01e` için tamamlanan Linux CI, Render deploy ve gerçek canlı ortak politika kontrolü: [19 Ekim doğrulama kaydı](docs/verification-2026-10-19.md). Bu belge yalnızca gerçekleştirilmiş kontrolleri listeler.
+
+Son araştırma ve yerel test denetimi: [son teslim kaydı](docs/final-audit-2026-10-19.md). Güncel commit'in CI sonucu üstteki rozet/Actions bağlantısından izlenir.
