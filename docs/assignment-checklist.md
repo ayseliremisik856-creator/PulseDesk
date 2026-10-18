@@ -6,11 +6,11 @@ Kaynak: öğrencinin bu geliştirme görüşmesinde paylaştığı 19 Ekim 2026 
 
 | Koşul | Durum / kanıt |
 | --- | --- |
-| Canlı URL yok | Yok: [mevcut canlı URL](https://pulsedesk-12n5.onrender.com) var; yeni sürüm sonrası tekrar kontrol edilir. |
-| Aort uçtan uca çalışmıyor | Önceki canlı sürümde gerçek HTTP akışı doğrulandı; yeni sürümde aynı akış ve ortak politika doğrulanacak. |
+| Canlı URL yok | Yok: [canlı URL](https://pulsedesk-12n5.onrender.com), yeni sürümde GET / ve /up 200 doğrulandı. |
+| Aort uçtan uca çalışmıyor | Yok: yeni sürümde gerçek HTTP talep akışı ve iki markalı ortak politika doğrulandı. |
 | Var denilen özellik çalışmıyor | Yalnızca talep akışı ve ortak politika sunulur; login/ödeme/otomatik etiketleme yok, README'de açık. |
 | Uydurma test raporu | Yerel gerçek sonuç: 39 test / 195 assertion; 0 failure/error/skip. CI sonucu ayrıca [Actions](https://github.com/ayseliremisik856-creator/PulseDesk/actions) üzerinden izlenir. |
-| Orijinal ürün markası/logosu uygulamada | Uygulama görünümü PulseDesk; kaynak ürün adı yalnızca araştırma dokümanlarında. Kod/görünüm taraması ve canlı sayfalarla kontrol edilir. |
+| Orijinal ürün markası/logosu uygulamada | Yok: görünüm PulseDesk; kod/görünüm taraması ve canlı metin kontrolü geçti. Kaynak ürün adı yalnızca araştırma dokümanlarında. |
 
 ## 85 puan — tümü zorunlu
 
@@ -24,10 +24,10 @@ Kaynak: öğrencinin bu geliştirme görüşmesinde paylaştığı 19 Ekim 2026 
 | 3a | Ürün LOC ve yöntem | Tamamlandı: mühendislerin konferans beyanıyla yaklaşık 2 milyon; kapsam/tarih ve ölçüm sınırı açık. |
 | 3b | Agent maliyet/süre tahmini | Tamamlandı: açık kapsam/varsayım, fiyat kaynağı, 8–40 USD API senaryosu ve 3–6 saat planlama bütçesi. |
 | 3c | Gerçek süre/maliyet | **Kısmen:** dosya/Git/deploy ile geçen süre doğrulandı; aktif süre ve gerçek toplam fatura doğrulanamadı. |
-| 4 | Rails 8+ canlı aort | Mevcut Rails 8.1.4 canlı; yeni sürüm deploy sonucu ve canlı kontrol ayrıca kaydedilir. |
+| 4 | Rails 8+ canlı aort | Tamamlandı: Rails 8.1.4; eafc01e Render'da live ve gerçek HTTP akışı geçti. |
 | 5 | Zaman kuralı ve durum geçişi | Tamamlandı: kayıt hedefi + new/open/solved. |
 | 6 | Otomatik test ve travel_to | Tamamlandı: varsayılan/ortak hedef sınırı ve kalıcı ihlal testleri. |
-| 7 | Yeşil GitHub Actions + rozet | Rozet mevcut; bu değişikliğin CI sonucu push sonrası [Actions'ta](https://github.com/ayseliremisik856-creator/PulseDesk/actions) ayrıca doğrulanır. Eski commit'in yeşili yeni commit için kanıt sayılmaz. |
+| 7 | Yeşil GitHub Actions + rozet | Tamamlandı: eafc01e için iki iş de success; [gerçek koşu](https://github.com/ayseliremisik856-creator/PulseDesk/actions/runs/39176734173). Sonraki commit'lerin sonucu rozetten ayrıca izlenir. |
 | 8 | AGENT.md | Tamamlandı; ajanla üretildi, dosya/kural haritası ve komutlar var. |
 | 9 | Yapamadıklarım | Tamamlandı; gerçek araştırma ve teslim eksikleri gizlenmedi. |
 
@@ -38,7 +38,7 @@ Kaynak: öğrencinin bu geliştirme görüşmesinde paylaştığı 19 Ekim 2026 
 | Tüm 85 şartları | **Eksik:** 2a ve gerçek fatura maddesi nedeniyle tam karşılandı denemez. |
 | Gerçek kullanıcı yorumu ve kaynak | Tamamlandı: G2 Alex M., 2 Ekim 2026, başlık/tarih/puan/teşvik etiketi ve kaynak bağlantısı README'de. |
 | Kullanıcının yapabiliyor/ama sorunu | Tamamlandı: multibrand tek kuyruk var; markalar arası otomasyon kopyasını unutma tutarsızlığı var. Yorum SLA eksikliği iddiası olarak çarpıtılmaz. |
-| Çalışan çözüm | Yerel model/HTTP testleri geçti: ortak politika, marka bağlantısı, tek noktadan değişiklik, gelecekte tutarlı hedef; canlı yeni sürüm ayrıca doğrulanır. |
+| Çalışan çözüm | Tamamlandı: yerel testler ve canlı iki marka/tek değişiklik kontrolü geçti; geçmiş 30 ve 60 dakikalık hedefler korundu. |
 | Tek cümle sunum | README'de hazır. |
 
 ## Diğer zorunlu şartlar
@@ -55,3 +55,5 @@ Kaynak: öğrencinin bu geliştirme görüşmesinde paylaştığı 19 Ekim 2026 
 | Eksiklerin açıkça belirtilmesi | Tamamlandı. |
 
 Sonuç: çalışan özellik ve dürüst rapor geliştirilmiştir; kesin 85/100 notu veya tüm zorunlu araştırmanın tamamlandığı iddia edilmez.
+
+Kanıt ayrıntıları: [19 Ekim doğrulama kaydı](verification-2026-10-19.md).

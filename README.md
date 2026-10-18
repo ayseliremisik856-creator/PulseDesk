@@ -140,3 +140,5 @@ Free planda pre-deploy komutu olmadığından migration build sırasında çalı
 | 30 sn | `AGENT.md` dosya haritası: süre hesabı serviste, geçiş modeli Ticket'ta, politika hedefi SlaPolicy'de |
 
 Resmî kontrol listesinin madde madde mevcut durumu [docs/assignment-checklist.md](docs/assignment-checklist.md) içinde tutulur. Çalışan özelliklere ilişkin kanıt ile eksik araştırma maddeleri ayrıdır; **tüm 85/100 koşulları sağlandı** veya kesin not garantisi iddia edilmez.
+
+Kod commit'i `eafc01e` için tamamlanan Linux CI, Render deploy ve gerçek canlı ortak politika kontrolü: [19 Ekim doğrulama kaydı](docs/verification-2026-10-19.md). Bu belge yalnızca gerçekleştirilmiş kontrolleri listeler.
